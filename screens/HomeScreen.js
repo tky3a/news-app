@@ -16,6 +16,7 @@ const URL = `http://newsapi.org/v2/top-headlines?country=jp&apiKey=${Constants.m
 
 export default HomeScreen = (props) => {
   const { navigation } = props;
+  const [k, setK] = useState(false)
   // 最初画面がマウントされる前にarticlesに空を設定
   const [articles, setArticles] = useState([]);
   // useEffectが呼ばれるタイミング(マウントされるタイミング)で配列データをarticlesに設定
@@ -30,7 +31,13 @@ export default HomeScreen = (props) => {
   const fetchArticles = async () => {
     try {
       const response = await axios.get(URL);
-      setArticles(response.data.articles);
+      const newArticles = []
+      response.data.articles.map ((article, index) => {
+        article.key = index + 1
+        newArticles.push(article)
+      })
+      setArticles(newArticles);
+      console.log("????/", newArticles)
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +52,16 @@ export default HomeScreen = (props) => {
             imageUrl={item.urlToImage}
             author={item.author}
             title={item.title}
-            onPress={() => navigation.navigate("Article", { article: item })}
+            id={k}
+            obj={item}
+            onPress={() => {
+              // console.log(item.key)
+              console.log("-------------------------------タップアイテム", item)
+              item.key
+              setK(item.key)
+                // navigation.navigate("Article", { article: item })
+              }
+            }
           />
         )}
         keyExtractor={(item, index) => index.toString()}

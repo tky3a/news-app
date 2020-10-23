@@ -10,6 +10,15 @@ const styles = StyleSheet.create({
     // flexDirectionでコンテンツを横並びにできる、columnにした場合は縦になる(default縦)
     flexDirection: "row",
   },
+  itemContainer2: {
+    height: 100,
+    width: "100%",
+    borderColor: "gray",
+    borderWidth: 1,
+    // flexDirectionでコンテンツを横並びにできる、columnにした場合は縦になる(default縦)
+    flexDirection: "row",
+    backgroundColor: "black"
+  },
   // 左の項目
   leftContainer: {
     width: 100,
@@ -30,9 +39,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const ListItem = ({ author, imageUrl, title, onPress }) => {
+const ListItem = ({ author, imageUrl, title, onPress, id, obj }) => {
+  console.log("キー！！！！", id)
+  console.log(id === obj.key)
+  const sty = id === obj.key ? styles.itemContainer2 : styles.itemContainer
   return (
-    <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
+    <TouchableOpacity style={sty} onPress={onPress}>
       <View style={styles.leftContainer}>
         {!!imageUrl && (
           <Image
